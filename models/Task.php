@@ -7,7 +7,7 @@ class Task
 
     public $id_task;
     public $description;
-    public $status;
+    public $done;
 
     /** Constructor */
     public function __construct($db)
