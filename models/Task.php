@@ -55,10 +55,37 @@ class Task
 
         /** Formatear datos de entrada */
         $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->done = htmlspecialchars(strip_tags($this->done));
 
         /** Bind parámetros */
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':done', $this->done);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+        }
+    }
+
+    public function update()
+    {
+        $query = "UPDATE {$this->table}
+                    SET description = :description, done = :done
+                    WHERE id_task = :id_task";
+
+        $stmt = $this->conn->prepare($query);
+
+        /** Formatear datos de entrada */
+        $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->done = htmlspecialchars(strip_tags($this->done));
+        $this->id_task = htmlspecialchars(strip_tags($this->id_task));
+
+        /** Bind parámetros */
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':done', $this->done);
+        $stmt->bindParam(':id_task', $this->id_task);
 
         if ($stmt->execute()) {
             return true;
