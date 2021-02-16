@@ -13,7 +13,6 @@ $connection = new Connection();
 $db = $connection->connect();
 
 /** Creación de 'task' */
-
 $task = new Task($db);
 $result = $task->getTask();
 

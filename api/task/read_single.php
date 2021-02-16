@@ -13,7 +13,6 @@ $connection = new Connection();
 $db = $connection->connect();
 
 /** Creación de 'task' */
-
 $task = new Task($db);
 
 $task->id_task = (isset($_GET['id_task'])) ? $_GET['id_task'] : die();
