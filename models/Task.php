@@ -40,8 +40,13 @@ class Task
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $this->description = $row['description'];
-        $this->done = $row['done'];
+        if (!empty($row)) {
+            $this->description = $row['description'];
+            $this->done = $row['done'];
+            $this->id_task = $row['id_task'];
+        }else {
+            unset($this->id_task);
+        }
 
         return $stmt;
     }
@@ -85,6 +90,27 @@ class Task
         /** Bind parámetros */
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':done', $this->done);
+        $stmt->bindParam(':id_task', $this->id_task);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+        }
+    }
+
+    public function delete()
+    {
+        $query = "DELETE FROM {$this->table}
+                    WHERE id_task = :id_task";
+
+        $stmt = $this->conn->prepare($query);
+
+        /** Formatear datos de entrada */
+        $this->id_task = htmlspecialchars(strip_tags($this->id_task));
+
+        /** Bind parámetros */
         $stmt->bindParam(':id_task', $this->id_task);
 
         if ($stmt->execute()) {

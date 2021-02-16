@@ -18,10 +18,15 @@ $task = new Task($db);
 $task->id_task = (isset($_GET['id_task'])) ? $_GET['id_task'] : die();
 
 $task->getSingleTask();
-$task_array = array(
-    'id_task' => $task->id_task,
-    'description' => $task->description,
-    'done' => $task->done
-);
+
+if (!empty($task->id_task)) {
+    $task_array = array(
+        'id_task' => $task->id_task,
+        'description' => $task->description,
+        'done' => $task->done
+    );
+} else {
+    $task_array = array("message" => "Task doesn't exist");
+}
 
 print_r(json_encode($task_array));
