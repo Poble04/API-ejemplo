@@ -5,7 +5,7 @@ class Task
     private $conn;
     private $table = 'tasks';
 
-    public $id;
+    public $id_task;
     public $description;
     public $status;
 
