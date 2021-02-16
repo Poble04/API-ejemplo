@@ -45,4 +45,26 @@ class Task
 
         return $stmt;
     }
+
+    public function insert()
+    {
+        $query = "INSERT INTO {$this->table} (description, done)
+                    VALUES (:description, :done)";
+
+        $stmt = $this->conn->prepare($query);
+
+        /** Formatear datos de entrada */
+        $this->description = htmlspecialchars(strip_tags($this->description));
+
+        /** Bind parámetros */
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':done', $this->done);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+        }
+    }
 }
